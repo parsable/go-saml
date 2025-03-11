@@ -53,8 +53,7 @@ jobs:
         path: ./common-actions
         token: ${{ secrets.GH_PAT_MACHINE_PARSABLE }}
         ref: v1.0.1
-    - name: Release
-      uses: ./common-actions/release-with-changelog
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ steps.tag.outputs.new_tag }}
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release create -t "${{ steps.tag.outputs.new_tag }}" --generate-notes "${{ steps.tag.outputs.new_tag }}"
